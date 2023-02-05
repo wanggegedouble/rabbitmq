@@ -5,7 +5,7 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class Consumer_Routing01 {
+public class Consumer_Topics01 {
     public static void main(String[] args) throws IOException, TimeoutException {
         //1 创建连接工厂
         ConnectionFactory factory = new ConnectionFactory();
@@ -18,12 +18,9 @@ public class Consumer_Routing01 {
         //3 创建连接 connection
         Connection connection = factory.newConnection();
         //4 创建channel
+        final String queueName01 = "topic01";
+        final String queueName02 = "topic02";
         Channel channel = connection.createChannel();
-        final String queueName01 = "fanout01";
-        final String ERROR = "error";
-        final String INFO = "info";
-        final String WARING = "waring";
-        final String EXCHANGE = "Routing_direct";
         channel.queueDeclare(queueName01,true,false,false,null);
         DefaultConsumer consumer = new DefaultConsumer(channel){
             /*

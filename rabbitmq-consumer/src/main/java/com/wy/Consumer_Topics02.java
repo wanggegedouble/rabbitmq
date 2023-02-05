@@ -5,7 +5,7 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class Consumer_Routing01 {
+public class Consumer_Topics02 {
     public static void main(String[] args) throws IOException, TimeoutException {
         //1 创建连接工厂
         ConnectionFactory factory = new ConnectionFactory();
@@ -18,13 +18,9 @@ public class Consumer_Routing01 {
         //3 创建连接 connection
         Connection connection = factory.newConnection();
         //4 创建channel
+        final String queueName02 = "topic02";
         Channel channel = connection.createChannel();
-        final String queueName01 = "fanout01";
-        final String ERROR = "error";
-        final String INFO = "info";
-        final String WARING = "waring";
-        final String EXCHANGE = "Routing_direct";
-        channel.queueDeclare(queueName01,true,false,false,null);
+        channel.queueDeclare(queueName02,true,false,false,null);
         DefaultConsumer consumer = new DefaultConsumer(channel){
             /*
              * String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body
@@ -39,6 +35,6 @@ public class Consumer_Routing01 {
                 System.out.println("将消息打印到数据库~~~");
             }
         };
-        channel.basicConsume(queueName01,true,consumer);
+        channel.basicConsume(queueName02,true,consumer);
     }
 }
